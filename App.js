@@ -237,9 +237,9 @@ export default function App() {
         // onPress={(obj) => {
         //   console.log({ naveedObj: obj });
         // }}
-        // onRegionChangeComplete={(obj) => {
-        //   console.log({ naveedObj: obj });
-        // }}
+        onRegionChangeComplete={(obj) => {
+          console.log({ naveedObj: obj });
+        }}
         onMarkerDragEnd={(obj) => {
           console.log({ naveedObj: obj });
         }}
@@ -249,6 +249,26 @@ export default function App() {
           coordinate={{
             latitude: 37.78825,
             longitude: -122.4324,
+          }}
+          draggable
+        >
+          <CustomMarker />
+        </Marker>
+        <Marker
+          identifier="driver_position"
+          coordinate={{
+            latitude: 37.789895204088985,
+            longitude: -122.42844896391034,
+          }}
+          draggable
+        >
+          <CustomMarker />
+        </Marker>
+        <Marker
+          identifier="driver_position"
+          coordinate={{
+            latitude: 37.79317952996351,
+            longitude: -122.42953794077039,
           }}
           draggable
         >
