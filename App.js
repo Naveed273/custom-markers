@@ -188,7 +188,7 @@ const cumstomMapStyling = [
     ],
   },
 ];
-const CustomMarker = () => {
+const CustomMarker = ({ coordinate }) => {
   return (
     <View
       style={{
@@ -205,6 +205,10 @@ const CustomMarker = () => {
           height: 50,
         }}
       />
+      <Text style={{ color: "red" }}>{`latitude: ${coordinate.latitude}`}</Text>
+      <Text
+        style={{ color: "red" }}
+      >{`longitude: ${coordinate.longitude}`}</Text>
     </View>
   );
 };
@@ -241,48 +245,26 @@ export default function App() {
         maxZoomLevel={20}
         loadingEnabled
         loadingIndicatorColor="#ffff"
-        // scrollEnabled={false}
-        // onPress={(obj) => {
-        //   console.log({ naveedObj: obj });
-        // }}
-        // onRegionChangeComplete={(obj) => {
-        //   console.log({ naveedObj: obj });
-        // }}
-        onMarkerDragStart={(obj) => {
-          // setmarker1({})
-          console.log({ onMarkerDragStart: obj });
-          setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
-        }}
-        onMarkerDragEnd={(obj) => {
-          console.log({ onMarkerDragEnd: obj });
-          setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
-        }}
-        onMarkerDrag={(obj) => {
-          // setmarker1({})
-          console.log({ onMarkerDrag: obj });
-          setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
-        }}
       >
         <Marker
           identifier="drivermarker1"
           coordinate={marker1}
           draggable={true}
-          onDragStart={(obj) => {
-            // setmarker1({})
-            console.log({ onMarkerDragStart: obj });
-            setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
+          onDrag={(e) => {
+            setmarker1({
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            });
           }}
-          onDrag={(obj) => {
-            console.log({ onMarkerDragEnd: obj });
-            setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
-          }}
-          onDragEnd={(obj) => {
-            // setmarker1({})
-            console.log({ onMarkerDrag: obj });
-            setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
+          onDragEnd={(e) => {
+            console.log({ onMarkerDragEnd: e.nativeEvent });
+            setmarker1({
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            });
           }}
         >
-          <CustomMarker />
+          <CustomMarker coordinate={marker1} />
         </Marker>
       </MapView>
     </View>
