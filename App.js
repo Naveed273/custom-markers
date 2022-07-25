@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
 // custom map styling
@@ -210,22 +210,29 @@ const CustomMarker = () => {
 };
 
 export default function App() {
+  const [mapRegion, setmapRegion] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.0121,
+  });
+  const [marker1, setmarker1] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+  });
+
+  useEffect(() => {}, [marker1]);
+
   return (
     <View style={styles.container}>
       <MapView
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
+        initialRegion={mapRegion}
+        // region={mapRegion}
         style={styles.map}
         customMapStyle={cumstomMapStyling}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
-        userLocationPriority="high"
-        userLocationAnnotationTitle="Naveed"
-        userLocationCalloutEnabled
+        followsUserLocation={true}
         showsMyLocationButton
         showsCompass
         showsTraffic
@@ -234,43 +241,46 @@ export default function App() {
         maxZoomLevel={20}
         loadingEnabled
         loadingIndicatorColor="#ffff"
+        // scrollEnabled={false}
         // onPress={(obj) => {
         //   console.log({ naveedObj: obj });
         // }}
-        onRegionChangeComplete={(obj) => {
-          console.log({ naveedObj: obj });
+        // onRegionChangeComplete={(obj) => {
+        //   console.log({ naveedObj: obj });
+        // }}
+        onMarkerDragStart={(obj) => {
+          // setmarker1({})
+          console.log({ onMarkerDragStart: obj });
+          setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
         }}
         onMarkerDragEnd={(obj) => {
-          console.log({ naveedObj: obj });
+          console.log({ onMarkerDragEnd: obj });
+          setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
+        }}
+        onMarkerDrag={(obj) => {
+          // setmarker1({})
+          console.log({ onMarkerDrag: obj });
+          setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
         }}
       >
         <Marker
-          identifier="driver_position"
-          coordinate={{
-            latitude: 37.78825,
-            longitude: -122.4324,
+          identifier="drivermarker1"
+          coordinate={marker1}
+          draggable={true}
+          onDragStart={(obj) => {
+            // setmarker1({})
+            console.log({ onMarkerDragStart: obj });
+            setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
           }}
-          draggable
-        >
-          <CustomMarker />
-        </Marker>
-        <Marker
-          identifier="driver_position"
-          coordinate={{
-            latitude: 37.789895204088985,
-            longitude: -122.42844896391034,
+          onDrag={(obj) => {
+            console.log({ onMarkerDragEnd: obj });
+            setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
           }}
-          draggable
-        >
-          <CustomMarker />
-        </Marker>
-        <Marker
-          identifier="driver_position"
-          coordinate={{
-            latitude: 37.79317952996351,
-            longitude: -122.42953794077039,
+          onDragEnd={(obj) => {
+            // setmarker1({})
+            console.log({ onMarkerDrag: obj });
+            setmarker1({ latitude: obj.latitude, longitude: obj.longitude });
           }}
-          draggable
         >
           <CustomMarker />
         </Marker>
