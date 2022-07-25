@@ -1,6 +1,7 @@
 import * as React from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
+// custom map styling
 const cumstomMapStyling = [
   {
     elementType: "geometry",
@@ -187,6 +188,26 @@ const cumstomMapStyling = [
     ],
   },
 ];
+const CustomMarker = () => {
+  return (
+    <View
+      style={{
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Image
+        source={require("./assets/taxi.jpg")}
+        resizeMode="contain"
+        style={{
+          width: 50,
+          height: 50,
+        }}
+      />
+    </View>
+  );
+};
 
 export default function App() {
   return (
@@ -224,13 +245,15 @@ export default function App() {
         }}
       >
         <Marker
+          identifier="driver_position"
           coordinate={{
             latitude: 37.78825,
             longitude: -122.4324,
           }}
-          image={require("./assets/taxi.jpg")}
           draggable
-        />
+        >
+          <CustomMarker />
+        </Marker>
       </MapView>
     </View>
   );
